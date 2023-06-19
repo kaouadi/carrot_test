@@ -1,0 +1,28 @@
+version: "3.8"
+
+services:
+  webserver:
+    image: manishng/python3.10.12sb_django4.2.2_and_carrot
+    container_name: webserver
+    depends_on:
+      - postgres
+    ports:
+      - '8000:8000'
+    volumes:
+      - ./core:/app/core
+      - ./static:/app/static
+  postgres:
+    image: postgres:alpine3.18
+    restart: always
+    container_name: postgres
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - '5432:5432'
+    volumes:
+      - carrot-postgres:/var/lib/postgresql/data
+
+volumes:
+  carrot-postgres:

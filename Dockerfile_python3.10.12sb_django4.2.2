@@ -1,0 +1,7 @@
+FROM manishng/carrot_python3.10.12sb:v1.1
+
+
+RUN pip install Django==4.2.2
+RUN pip install django-debug-toolbar==4.1.0
+RUN pip install asgiref==3.7.2 \
+    && pip install typing_extensions==4.6.3

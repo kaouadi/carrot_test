@@ -1,0 +1,114 @@
+services:
+  webserver:
+    image: torpedoregistry.azurecr.io/torpedo/rails32225_and_torpedo
+    depends_on:
+      - postgres
+      - redis
+    ports:
+      - '5000:5000'
+    volumes:
+      - ./app:/app/app
+      - ./lib:/app/lib
+      - ./public:/app/public
+      - ./db:/app/db
+      - ./config:/app/config
+  redis:
+    image: redis:6.2-alpine
+    restart: always
+    ports:
+      - '6379:6379'
+  
+  postgres:
+    image: postgres:11.19-alpine3.17
+    restart: always
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - '5432:5432'
+    volumes:
+      - torpedo-postgres:/var/lib/postgresql/data
+
+volumes:
+  torpedo-postgres:
+
+
+  #added new: to see ouptup in real time
+ENV PYTHONUNBUFFERED=1
+
+WORKDIR /app_nodb
+
+
+
+'''comment all
+
+version: "3.8"
+
+services:
+  django:
+    build: .
+    container_name: docker_django:1.0
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes: 
+      - .:/app_nodb
+    ports:
+      - "8000:8000"
+    depends_on:
+      - pgdb
+
+  pgdb:
+    image: postgres
+    container_name: pgdb
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+'''
+      
+=========
+DATABASES = {
+    'default' : {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgres',
+        'USER': 'postgres',
+        'PASSWORD': 'postgres',
+        'HOST': 'pgdb',
+        'POST': 5432,
+    }
+}
+
+FROM python:3.12.0b2-slim-buster
+
+#added new: to see ouptup in real time
+ENV PYTHONUNBUFFERED=1
+
+WORKDIR /app_nodb
+
+COPY requirements.txt requirements.txt
+# RUN pip3 install -r requirements.txt 
+RUN pip install --no-cache-dir  -r requirements.txt
+
+COPY . .
+
+CMD ["python3", "manage.py", "runserver", "0.0.0.0:8000"]
+
+docker run -it --rm manishng/carrot_python3.10.12sb_django4.2.2_dev:v1.1 django-admin
+
+
+
+
+docker build --tag django-img1 .
+docker run --publish 8000:8000 django-img1
+
+The following is for docker-compose
+docker-compose up / down
+
+Postgres 
+========
+
+docker exec -it postgres psql -U postgres
+\c <database_name>
+\d
+\d+ <table_name>
+\q

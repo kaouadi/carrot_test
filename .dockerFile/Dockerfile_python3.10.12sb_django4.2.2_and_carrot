@@ -1,0 +1,5 @@
+FROM manishng/python3.10.12sb_django4.2.2
+ENV PYTHONUNBUFFERED=1  
+ADD . /app
+WORKDIR /app
+CMD ["manage.py", "runserver", "0.0.0.0:8000"]

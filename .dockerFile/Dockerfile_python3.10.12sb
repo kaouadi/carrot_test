@@ -1,0 +1,11 @@
+FROM python:3.10.12-slim-buster
+
+MAINTAINER ManishNG
+
+
+RUN apt-get update \
+    && apt-get -y install libpq-dev gcc \
+    && pip install psycopg2-binary
+
+#Time zome initialised for Paris
+ENV TZ="Europe/Paris"

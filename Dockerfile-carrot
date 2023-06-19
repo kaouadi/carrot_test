@@ -1,0 +1,7 @@
+FROM manishng/carrot_python3.10.12sb_django4.2.2:v1.1
+
+ENV PYTHONUNBUFFERED=1  
+
+WORKDIR /usr/src/app 
+
+#CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
