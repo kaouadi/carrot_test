@@ -20,6 +20,8 @@ docker push manishng/python3.10.12sb_django4.2.2
 ###
 # Build image manishng/python3.10.12sb_django4.2.2_and_carrot:yyyy_mm_dd
 docker build -t manishng/python3.10.12sb_django4.2.2_and_carrot:2023_06_19 -f ./Dockerfile_python3.10.12sb_django4.2.2_and_carrot .
+# Save image python manishng/python3.10.12sb_django4.2.2_and_carrot:yyyy_mm_dd
+docker push manishng/python3.10.12sb_django4.2.2_and_carrot:2023_06_19 
 
 
 ###
